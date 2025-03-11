@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= title %></title>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <h2>Your messages</h2>
+    <% if (locals.messages) { %>
+    <ul>
+      <% locals.messages.forEach(function(message) { %>
+      <li>
+        <p>User: <%= message.user %></p>
+        <p>Message: <%= message.text %></p>
+        <p>Added: <%= message.added %></p>
+      </li>
+      <% }); %>
+    </ul>
+    <% } %>
+  </body>
+</html>
