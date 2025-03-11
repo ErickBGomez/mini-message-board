@@ -10,8 +10,28 @@ const getNewMessage = (req, res) => {
 
 const postNewMessage = (req, res) => {
   const { text, user } = req.body;
-  messages.push({ text, user, added: new Date() });
+  messages.push({ id: messages.length + 1, text, user, added: new Date() });
   res.redirect("/");
 };
 
-module.exports = { getIndex, getNewMessage, postNewMessage };
+const getMessage = (req, res) => {
+  const { id } = req.params;
+  const message = messages.find((message) => message.id === Number(id));
+
+  if (!message) return res.redirect("/not-found");
+
+  const { text, user, added } = message;
+  res.render("message", { title: "View message details", text, user, added });
+};
+
+const getMessageNotFound = (req, res) => {
+  res.render("not-found", { title: "Message Not Found" });
+};
+
+module.exports = {
+  getIndex,
+  getNewMessage,
+  postNewMessage,
+  getMessage,
+  getMessageNotFound,
+};
