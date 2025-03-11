@@ -8,4 +8,10 @@ const getNewMessage = (req, res) => {
   res.render("form", { title: "New Message" });
 };
 
-module.exports = { getIndex, getNewMessage };
+const postNewMessage = (req, res) => {
+  const { text, user } = req.body;
+  messages.push({ text, user, added: new Date() });
+  res.redirect("/");
+};
+
+module.exports = { getIndex, getNewMessage, postNewMessage };
