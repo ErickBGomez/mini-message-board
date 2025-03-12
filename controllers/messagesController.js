@@ -26,7 +26,7 @@ const getMessage = async (req, res) => {
 
   console.log(message);
 
-  if (!message) return res.redirect("/not-found");
+  if (!message.length) return res.redirect("/not-found");
 
   const { text, username, added } = message[0];
   res.render("message", {
