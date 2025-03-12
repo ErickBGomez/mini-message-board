@@ -1,6 +1,10 @@
-const messages = require("../storage/messages");
+const db = require("../db/queries");
 
-const getIndex = (req, res) => {
+// const messages = require("../storage/messages");
+
+const getIndex = async (req, res) => {
+  const messages = await db.getMessages();
+
   res.render("index", { title: "Mini Message Board", messages });
 };
 
@@ -8,20 +12,29 @@ const getNewMessage = (req, res) => {
   res.render("form", { title: "New Message" });
 };
 
-const postNewMessage = (req, res) => {
-  const { text, user } = req.body;
-  messages.push({ id: messages.length + 1, text, user, added: new Date() });
+const postNewMessage = async (req, res) => {
+  const { text, username } = req.body;
+  // messages.push({ id: messages.length + 1, text, user, added: new Date() });
+  await db.createMessage(username, text, new Date());
   res.redirect("/");
 };
 
-const getMessage = (req, res) => {
+const getMessage = async (req, res) => {
   const { id } = req.params;
-  const message = messages.find((message) => message.id === Number(id));
+  // const message = messages.find((message) => message.id === Number(id));
+  const message = await db.getMessage(id);
+
+  console.log(message);
 
   if (!message) return res.redirect("/not-found");
 
-  const { text, user, added } = message;
-  res.render("message", { title: "View message details", text, user, added });
+  const { text, username, added } = message[0];
+  res.render("message", {
+    title: "View message details",
+    text,
+    username,
+    added,
+  });
 };
 
 const getMessageNotFound = (req, res) => {
