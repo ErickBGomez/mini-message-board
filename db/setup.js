@@ -21,9 +21,11 @@ const setup = async () => {
     )`);
 
   for (const message of messages) {
+    const { username, text, added } = message;
+
     await client.query(
       "INSERT INTO messages (username, text, added) VALUES($1, $2, $3)",
-      [message.username, message.text, message.added]
+      [username, text, added]
     );
   }
 
