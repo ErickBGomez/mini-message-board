@@ -41,10 +41,32 @@ const getMessageNotFound = (req, res) => {
   res.render("not-found", { title: "Message Not Found" });
 };
 
+const deleteMessage = async (req, res) => {
+  const { id } = req.params;
+
+  await db.deleteMessage(id);
+
+  res.redirect("/");
+};
+
+const searchMessage = async (req, res) => {
+  const { query } = req.query;
+
+  const messages = await db.searchMessage(query);
+
+  if (!messages.length) {
+    return res.render("not-found", { title: "Message Not Found" });
+  }
+
+  res.render("search", { title: "Search results", messages });
+};
+
 module.exports = {
   getIndex,
   getNewMessage,
   postNewMessage,
   getMessage,
   getMessageNotFound,
+  deleteMessage,
+  searchMessage,
 };

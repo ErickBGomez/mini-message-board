@@ -6,6 +6,11 @@
   </head>
   <body>
     <h1><%= title %></h1>
+    <form method="GET" action="/search">
+      <label for="query">Search</label>
+      <input type="text" name="query" id="query" />
+      <button type="submit">Search</button>
+    </form>
     <h2>Your messages</h2>
     <a href="/new">New message</a>
     <% if (locals.messages) { %>
@@ -15,6 +20,9 @@
         <p>
           <%= message.username %>: <%= message.text %>
           <a href="/message/<%= message.id %>">View details</a>
+          <form method="POST" action="/delete/message/<%= message.id %>">
+            <button type="submit">Delete</button>
+          </form>
         </p>
       </li>
       <% }); %>

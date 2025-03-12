@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= title %></title>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <a href="/">Return</a>
+
+    <h2>Search results</h2>
+    <% if (locals.messages) { %>
+      <ul>
+        <% locals.messages.forEach(function(message) { %>
+        <li>
+          <p>
+            <%= message.username %>: <%= message.text %>
+            <a href="/message/<%= message.id %>">View details</a>
+            <form method="POST" action="/delete/message/<%= message.id %>">
+              <button type="submit">Delete</button>
+            </form>
+          </p>
+        </li>
+        <% }); %>
+      </ul>
+    <% } %>
+  </body>
+</html>
